@@ -1,7 +1,7 @@
 {
-  "name": "redditlisten",
+  "name": "mattfoxx-experiments",
   "version": "0.1.0",
-  "homepage": "http://redditdata.live/",
+  "homepage": "http://mattfoxx.tech/",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^1.2.2",
