@@ -63,11 +63,8 @@ class PreferenceDrawer extends Component {
   };
   
   render(){
-	const { preferences } = this.props;
-	const passedProps     = { ...this.props };
-	delete passedProps.preferences;
-	delete passedProps.onSavePrefs;
-	return (<SwipeableDrawer anchor="right" disableBackdropTransition {...passedProps}>
+	const { preferences, onSavePrefs, ...otherProps } = this.props;
+	return (<SwipeableDrawer anchor="right" disableBackdropTransition {...otherProps}>
 	  <div style={{ width: '300px' }}>
 		<List subheader={<ListSubheader>Preferences</ListSubheader>}>
 		  <ListItem>

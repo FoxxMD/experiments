@@ -27,9 +27,9 @@ import { withSize } from 'react-sizeme';
 
 import routes from '../routes';
 import { selectActivePref, selectAppBarHeight } from '../Global/Preferences/preferencesSelector';
-import { sseSelector } from '../Global/SSE/sseSelectors';
-import * as sseActions from '../Global/SSE/sseActions';
-import * as sseConstants from '../Global/SSE/sseConstants';
+// import { sseSelector } from '../Global/SSE/sseSelectors';
+// import * as sseActions from '../Global/SSE/sseActions';
+// import * as sseConstants from '../Global/SSE/sseConstants';
 import * as prefActions from '../Global/Preferences/preferencesActions';
 import PreferenceDrawer from './PreferenceDrawer';
 
@@ -54,11 +54,11 @@ const styles = theme => ({
   },
 });
 
-const statusType = {
-  [ sseConstants.SSE_STATUS_CONNECTING ]: 'secondary',
-  [ sseConstants.SSE_STATUS_CLOSED ]: 'secondary',
-  [ sseConstants.SSE_STATUS_OPEN ]: 'primary'
-};
+// const statusType = {
+//   [ sseConstants.SSE_STATUS_CONNECTING ]: 'secondary',
+//   [ sseConstants.SSE_STATUS_CLOSED ]: 'secondary',
+//   [ sseConstants.SSE_STATUS_OPEN ]: 'primary'
+// };
 
 const badgeStyles = theme => ({
   colorPrimary: {
@@ -87,8 +87,8 @@ const progressStyles = theme => ({
   }
 });
 
-const StatusBadge    = withStyles( badgeStyles )( Badge );
-const StatusProgress = withStyles( progressStyles )( CircularProgress );
+// const StatusBadge    = withStyles( badgeStyles )( Badge );
+// const StatusProgress = withStyles( progressStyles )( CircularProgress );
 
 const popOverProps = {
   anchorOrigin: {
@@ -118,68 +118,68 @@ class ButtonAppBar extends Component {
 	}
   }
   
-  handleOpenNavMenu = ( e ) =>{
+  handleOpenNavMenu = ( e ) => {
 	this.setState( {
 	  navMenuEl: e.currentTarget
 	} );
   };
   
-  handleNavMenuClose = () =>{
+  handleNavMenuClose = () => {
 	this.setState( {
 	  navMenuEl: null
 	} );
   };
   
-  handleNavMenuItemClick = ( path ) =>{
+  handleNavMenuItemClick = ( path ) => {
 	this.setState( {
 	  navMenuEl: null
 	} );
 	this.props.goToLink( path );
   };
   
-  openPrefDrawer = () =>{
+  openPrefDrawer = () => {
 	this.setState( {
 	  prefDrawerOpen: true
 	} );
   };
   
-  closePrefDrawer = () =>{
+  closePrefDrawer = () => {
 	this.setState( {
 	  prefDrawerOpen: false
 	} );
   };
   
-  handlePopoverClick = ( event ) =>{
+  handlePopoverClick = ( event ) => {
 	this.setState( {
 	  creditAnchorElement: event.currentTarget
 	} );
   };
   
-  handlePopoverClose = () =>{
+  handlePopoverClose = () => {
 	this.setState( {
 	  creditAnchorElement: null
 	} );
   };
   
-  toggleSse = () =>{
-	if(this.props.sse.status === sseConstants.SSE_STATUS_CLOSED) {
-	  this.props.startFeed();
-	}
-	else if(this.props.sse.status === sseConstants.SSE_STATUS_OPEN) {
-	  this.props.stopFeed();
-	}
-  };
+  // toggleSse = () => {
+	// if(this.props.sse.status === sseConstants.SSE_STATUS_CLOSED) {
+	//   this.props.startFeed();
+	// }
+	// else if(this.props.sse.status === sseConstants.SSE_STATUS_OPEN) {
+	//   this.props.stopFeed();
+	// }
+  // };
   
-  savePrefs = ( prefs ) =>{
+  savePrefs = ( prefs ) => {
 	this.setState( {
 	  prefDrawerOpen: false
 	} );
 	this.props.setPreferences( prefs );
 	
-	if(this.props.sse.status === sseConstants.SSE_STATUS_OPEN) {
-	  this.props.stopFeed();
-	  this.props.startFeed();
-	}
+	// if(this.props.sse.status === sseConstants.SSE_STATUS_OPEN) {
+	//   this.props.stopFeed();
+	//   this.props.startFeed();
+	// }
   };
   
   render(){
@@ -222,14 +222,7 @@ class ButtonAppBar extends Component {
 				) )}
 			  </Menu>
 			  <span style={{ flex: 1 }}></span>
-			  <IconButton color="inherit" onClick={this.toggleSse}>
-				<StatusBadge badgeContent=""
-							 color={sse.error !== null ? 'error' : get( statusType, [ sse.status ], 'secondary' )}>
-				  {this.props.sse.status === sseConstants.SSE_STATUS_CONNECTING && <StatusProgress size={24}/>}
-				  <WorldIcon/>
-				</StatusBadge>
-			  </IconButton>
-			  <IconButton onClick={this.openPrefDrawer} color="inherit">
+			  <IconButton disabled onClick={this.openPrefDrawer} color="inherit">
 				<SettingsIcon/>
 			  </IconButton>
 			  <IconButton onClick={this.handlePopoverClick} color="inherit">
@@ -242,10 +235,10 @@ class ButtonAppBar extends Component {
 				<Typography className={classes.popoverTypography}>
 				  <Typography>
 					<p>Hey thanks for checking this out! You're great.</p>
-					<p>Site/experiments source code is available on <a href="https://github.com/FoxxMD/redditdatalive">Github</a>, created
+					<p>Site source code is available on <a href="https://github.com/FoxxMD/redditdatalive">Github</a>, created
 					  by <a href="https://matthewfoxx.com">Matt Foxx</a>.</p>
-					<p>Reddit live feed source code is also available on <a href="https://github.com/pushshift/reddit_sse_stream">Github</a>,
-					  created and provided by <a href="https://pushshift.io/">pushshift.io</a>.</p>
+					<p>Experiment attribution is on each page, if not created by me.</p>
+					<p>Check out my Reddit live stream visualizations at <a href="http://redditdata.live">redditdata.live</a></p>
 					<p>If you have an idea for the site, feedback, or just want to say hi you can:</p>
 					<ul>
 					  <li>Create an issue on <a href="https://github.com/FoxxMD/redditdatalive/issues">Github</a></li>
@@ -274,16 +267,16 @@ ButtonAppBar.propTypes = {
 const mapDispatchToProps = ( dispatch ) => ({
   setPreferences: ( prefs ) => (dispatch( prefActions.setPreferences( prefs ) )),
   announceAppBarHeight: ( height ) => (dispatch( prefActions.annouceAppBarHeight( height ) )),
-  startFeed: () => (dispatch( sseActions.startFeed() )),
-  stopFeed: () => (dispatch( sseActions.stopFeed() )),
+  // startFeed: () => (dispatch( sseActions.startFeed() )),
+  // stopFeed: () => (dispatch( sseActions.stopFeed() )),
   goToLink: ( path ) => dispatch( push( path ) )
 });
 
-const mapStateToProps = ( state ) =>{
+const mapStateToProps = ( state ) => {
   return {
 	preferences: selectActivePref( state ),
 	height: selectAppBarHeight( state ),
-	sse: sseSelector( state ),
+	// sse: sseSelector( state ),
   };
 };
 

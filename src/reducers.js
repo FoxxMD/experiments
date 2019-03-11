@@ -5,13 +5,13 @@ import {
 } from "react-router-redux";
 
 import preferences from './Global/Preferences/preferencesReducer';
-import sse from './Global/SSE/sseReducer';
+// import sse from './Global/SSE/sseReducer';
 
 export default function createReducer( injectedReducers ){
   return combineReducers( {
 	route: routerReducer,
 	preferences,
-	sse,
+	// sse,
 	...injectedReducers,
   } );
 }

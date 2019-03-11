@@ -15,7 +15,7 @@ import './index.css';
 import App from './App';
 import createReducer from './reducers';
 import registerServiceWorker from './registerServiceWorker';
-import sseMiddleware from './Global/SSE/sseMiddleware';
+// import sseMiddleware from './Global/SSE/sseMiddleware';
 
 const sagaMiddleware    = createSagaMiddleware();
 const history           = createHistory();
@@ -24,7 +24,7 @@ const historyMiddleware = routerMiddleware( history );
 const middlewares = [
   historyMiddleware,
   sagaMiddleware,
-  sseMiddleware
+  // sseMiddleware
 ];
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
