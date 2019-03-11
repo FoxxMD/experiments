@@ -142,7 +142,7 @@ class ThreeRender {
 	this.controls             = new OrbitControls( this.camera, canvas );
 	this.controls.enableKeys  = false;
 	this.controls.enablePan   = false;
-	this.controls.rotateSpeed = 0.1;
+	this.controls.rotateSpeed = 0.3;
 	
 	window.onresize = this.resizeCanvas;
 	this.loadTexture();

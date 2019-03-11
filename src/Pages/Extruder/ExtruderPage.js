@@ -3,7 +3,18 @@ import ThreeRender from './ThreeRenderer';
 import { compose } from 'recompose';
 import isUrl from 'is-url';
 import qs from 'qs';
-import { CircularProgress, Paper, TextField, Button, Switch, withStyles } from '@material-ui/core';
+import {
+  CircularProgress,
+  Paper,
+  TextField,
+  Button,
+  Switch,
+  withStyles,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails
+} from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import pageHOC from '../PageHOC';
 import { connect } from 'react-redux';
 import { defaultPrefs } from '../../Global/Preferences/preferencesReducer';
@@ -18,10 +29,22 @@ const EX_V = 'v';
 const EXPERIMENT_KEY = 'extruder';
 
 const styles = theme => ({
-  paper: {
+  settings: {
 	position: 'absolute',
 	bottom: '2%',
 	right: '2%',
+	backgroundColor: 'rgba(88, 87, 87, 0.2);',
+	color: 'white',
+	zIndex: '9999',
+	maxWidth: '500px',
+	"&:hover": {
+	  backgroundColor: 'rgba(88, 87, 87, 0.7);'
+	}
+  },
+  attribution: {
+	position: 'absolute',
+	bottom: '2%',
+	left: '2%',
 	backgroundColor: 'rgba(88, 87, 87, 0.2);',
 	color: 'white',
 	zIndex: '9999',
@@ -169,7 +192,7 @@ class ThreeContainer extends Component {
   };
   
   render(){
-	const { classes = {} }                = this.props;
+	const { classes = {} }                          = this.props;
 	const { extrusion: { h, s, v } = {}, urlInput } = this.state;
 	return (
 		<div style={{
@@ -185,30 +208,37 @@ class ThreeContainer extends Component {
 				<CircularProgress classes={{ root: classes.progress }}
 								  color="secondary"/></div>
 		  ) : null}
-		  <Paper classes={{ root: classes.paper }}>
-			<h4 style={{ margin: '10px 0 10px 0' }}>Settings</h4>
-			<TextField
-				classes={{ root: classes.textField }}
-				value={urlInput}
-				onChange={e => this.setState( { urlInput: e.target.value } )}
-				id="filled-search"
-				label="URL"
-				type="search"
-				margin="normal"
-				variant="filled"
-				InputProps={{ style: { color: 'white' } }}
-				InputLabelProps={{ style: { color: 'white' } }}
-			/><Button onClick={this.setUrl} variant="contained" color="secondary" size="small">Use</Button>
-			<div>
-			  Animate <Switch checked={this.state.animate} onChange={this.setAnimating}/>
-			</div>
-			<StatefulSlider max={3} initialValue={h} title="Hue" step={0.05}
-							onChange={( val ) => this.setExtrusion( EX_H, val )}/>
-			<StatefulSlider max={3} initialValue={s} title="Saturation" step={0.05}
-							onChange={( val ) => this.setExtrusion( EX_S, val )}/>
-			<StatefulSlider max={3} initialValue={v} title="Brightness" step={0.05}
-							onChange={( val ) => this.setExtrusion( EX_V, val )}/>
-		  </Paper>
+		  <ExpansionPanel classes={{ root: classes.settings }}>
+			<ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>Settings</ExpansionPanelSummary>
+			<ExpansionPanelDetails style={{ padding: '10px 15px 10px 15px' }}>
+			  <Paper style={{ backgroundColor: 'inherit' }} elevation={0}>
+				<TextField
+					classes={{ root: classes.textField }}
+					value={urlInput}
+					onChange={e => this.setState( { urlInput: e.target.value } )}
+					id="filled-search"
+					label="URL"
+					type="search"
+					margin="normal"
+					variant="filled"
+					InputProps={{ style: { color: 'white' } }}
+					InputLabelProps={{ style: { color: 'white' } }}
+				/><Button onClick={this.setUrl} variant="contained" color="secondary" size="small">Use</Button>
+				<div>
+				  Animate <Switch checked={this.state.animate} onChange={this.setAnimating}/>
+				</div>
+				<StatefulSlider max={3} initialValue={h} title="Hue" step={0.05}
+								onChange={( val ) => this.setExtrusion( EX_H, val )}/>
+				<StatefulSlider max={3} initialValue={s} title="Saturation" step={0.05}
+								onChange={( val ) => this.setExtrusion( EX_S, val )}/>
+				<StatefulSlider max={3} initialValue={v} title="Brightness" step={0.05}
+								onChange={( val ) => this.setExtrusion( EX_V, val )}/>
+			  </Paper>
+			</ExpansionPanelDetails>
+		  </ExpansionPanel>
+		  <Paper classes={{ root: classes.attribution }}>
+			Visualization code by <a target='_blank' href="https://codepen.io/darrylhuffman/details/wOKbvy">
+			Darryl Huffman</a></Paper>
 		  <div style={{ height: '100%', position: 'relative' }} ref={element => this.threeRootElement = element}/>
 		</div>
 	);
