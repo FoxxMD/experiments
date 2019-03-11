@@ -212,12 +212,18 @@ class ThreeContainer extends Component {
 			<ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>Settings</ExpansionPanelSummary>
 			<ExpansionPanelDetails style={{ padding: '10px 15px 10px 15px' }}>
 			  <Paper style={{ backgroundColor: 'inherit' }} elevation={0}>
+				<div style={{ marginBottom: '10px' }}>
+				  Visualization code by <a style={{ marginRight: '5px' }}
+										   target='_blank'
+										   href="https://codepen.io/darrylhuffman/details/wOKbvy">
+				  Darryl Huffman</a>❤️
+				</div>
 				<TextField
 					classes={{ root: classes.textField }}
 					value={urlInput}
 					onChange={e => this.setState( { urlInput: e.target.value } )}
 					id="filled-search"
-					label="URL"
+					label="Image URL"
 					type="search"
 					margin="normal"
 					variant="filled"
@@ -236,9 +242,6 @@ class ThreeContainer extends Component {
 			  </Paper>
 			</ExpansionPanelDetails>
 		  </ExpansionPanel>
-		  <Paper classes={{ root: classes.attribution }}>
-			Visualization code by <a target='_blank' href="https://codepen.io/darrylhuffman/details/wOKbvy">
-			Darryl Huffman</a></Paper>
 		  <div style={{ height: '100%', position: 'relative' }} ref={element => this.threeRootElement = element}/>
 		</div>
 	);
