@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import ThreeRender from './ThreeRenderer';
 import { compose } from 'recompose';
+import isUrl from 'is-url';
 import { CircularProgress, Paper, TextField, Button, Switch, withStyles } from '@material-ui/core';
 import pageHOC from '../PageHOC';
 import { connect } from 'react-redux';
 import { defaultPrefs } from '../../Global/Preferences/preferencesReducer';
 import { selectAppBarHeight } from '../../Global/Preferences/preferencesSelector';
 import StatefulSlider from './StatefulSlider';
+import Toast from './Toast';
 
 const EX_H = 'h';
 const EX_S = 's';
@@ -48,6 +50,7 @@ class ThreeContainer extends Component {
 	  loading: true,
 	  url: 'https://i.imgur.com/3aDc8Iy.jpg',
 	  animate: true,
+	  messageOpen: false
 	};
 	this.renderer = null;
   }
@@ -57,6 +60,8 @@ class ThreeContainer extends Component {
 	  containerElement: this.threeRootElement,
 	  url: this.state.url,
 	  onReady: this.onReady,
+	  onProgress: this.setProgress,
+	  onError: this.setError,
 	  initialExtrusion: {
 		h: 0.05,
 		s: 0,
@@ -69,11 +74,18 @@ class ThreeContainer extends Component {
   }
   
   onReady = () => {
-	console.log( 'ready!' );
 	this.setState( {
-	  loading: false
+	  loading: false,
+	  url: null,
 	} );
   };
+  
+  handleToastClose = () => {
+	this.setState( {
+	  messageOpen: false
+	} );
+  };
+  
   
   setExtrusion = ( type, val ) => {
 	console.log( `Type: ${type}, Value: ${val}` );
@@ -81,12 +93,31 @@ class ThreeContainer extends Component {
   };
   
   setUrl = () => {
-	const url = this.state.url;
+	if(!isUrl( this.state.url )) {
+	  this.setState( {
+		message: 'URL is not valid',
+		messageOpen: true,
+	  } );
+	}
+	else {
+	  const url = this.state.url;
+	  this.renderer.setImage( url );
+	}
+  };
+  
+  setProgress = () => {
+    console.log('progress');
 	this.setState( {
-	  url: null,
-	  ready: false,
+	  loading: true
 	} );
-	this.renderer.setImage( url );
+  };
+  
+  setError = ( e ) => {
+	this.setState( {
+	  loading: false,
+	  messageOpen: true,
+	  message: 'Image failed to load'
+	} );
   };
   
   setAnimating = ( e, checked ) => {
@@ -106,6 +137,7 @@ class ThreeContainer extends Component {
 		  height: window.innerHeight - (this.props.appBarHeight !== null ? this.props.appBarHeight : 0),
 		  backgroundColor: 'black'
 		}}>
+		  <Toast onClose={this.handleToastClose} open={this.state.messageOpen} message={this.state.message}/>
 		  {this.state.loading ? (
 			  <div style={{ height: '100%', position: 'relative' }}>
 				<CircularProgress classes={{ root: classes.progress }}

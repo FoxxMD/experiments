@@ -95,7 +95,9 @@ class ThreeRender {
 				   s: 0,
 				   v: 0
 				 },
-				 onReady = () => null
+				 onReady = () => null,
+				 onProgress = () => null,
+				 onError = () => null,
 			   } ){
 	this.containerElement    = containerElement;
 	this.width               = this.containerElement.offsetWidth;
@@ -115,7 +117,9 @@ class ThreeRender {
 	this.url = url;
 	//this.url = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/223954/StarryNight.jpg';
 	
-	this.readyCallback = onReady;
+	this.readyCallback    = onReady;
+	this.progressCallback = onProgress;
+	this.errorCallback    = onError;
 	
 	// constants
 	this.scene     = new THREE.Scene();
@@ -232,6 +236,11 @@ class ThreeRender {
 	this.setExtrusionTween( this.targetExtrusion );
 	
 	this.readyCallback();
+  }, () => {
+    console.log('three progress');
+	this.progressCallback();
+  }, ( e ) => {
+	this.errorCallback( e );
   } );
   
   setStartTween = ( imageWidth, imageHeight ) => {
