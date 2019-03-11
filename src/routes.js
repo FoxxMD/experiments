@@ -4,7 +4,7 @@ const routes = [
   {
     path: '/',
 	exact: true,
-	breadcrumb: 'Extuder',
+	breadcrumb: 'Extruder',
 	component: Extruder,
   },
 ];
