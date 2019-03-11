@@ -1,5 +1,6 @@
 // shamelessly ripped from https://codepen.io/darrylhuffman/pen/wOKbvy
 import * as THREE from 'three';
+import OrbitControls from 'three-orbitcontrols';
 import TWEEN from '@tweenjs/tween.js';
 
 const mouseExtrusion = 1; // extrusion multiplier on mouse over
@@ -106,6 +107,10 @@ class ThreeRender {
 	this.mouseDetectionPlane = undefined;
 	this.currentExtrusion    = { h: 0, s: 0, v: 0 };
 	this.targetExtrusion     = initialExtrusion;
+	this.animateImage        = true;
+	
+	this.material = null;
+	this.geometry = null;
 	
 	this.url = url;
 	//this.url = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/223954/StarryNight.jpg';
@@ -126,8 +131,14 @@ class ThreeRender {
 	this.renderer.setSize( this.width, this.height );
 	const canvas = this.renderer.domElement;
 	this.containerElement.appendChild( canvas );
-	this.exTween                 = null;
+	this.startTween              = undefined;
+	this.exTween                 = undefined;
 	THREE.ImageUtils.crossOrigin = 'Anonymous';
+	
+	this.controls             = new OrbitControls( this.camera, canvas );
+	this.controls.enableKeys  = false;
+	this.controls.enablePan   = false;
+	this.controls.rotateSpeed = 0.1;
 	
 	window.onresize = this.resizeCanvas;
 	this.loadTexture();
@@ -161,6 +172,11 @@ class ThreeRender {
   
   setImage = ( url ) => {
 	this.url = url;
+	this.scene.remove( this.mesh );
+	this.geometry.dispose();
+	this.mesh.material.dispose();
+	this.scene.remove( this.mouseDetectionPlane );
+	this.clickables = [];
 	this.loadTexture();
   };
   
@@ -197,6 +213,7 @@ class ThreeRender {
 	
 	geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
 	geometry.addAttribute( 'size', new THREE.Float32BufferAttribute( sizes, 1 ).setDynamic( true ) );
+	this.geometry = geometry;
 	
 	this.mesh            = new THREE.Points( geometry, material );
 	this.mesh.rotation.y = Math.PI;
@@ -210,23 +227,25 @@ class ThreeRender {
 	this.clickables.push( this.mouseDetectionPlane );
 	this.scene.add( this.mouseDetectionPlane );
 	
-	
-	new TWEEN.Tween( this.camera.position )
-		.to( { z: Math.max( imageWidth, imageHeight ) * 0.6 }, 4000 )
-		.easing( TWEEN.Easing.Quadratic.Out )
-		.start();
+	this.setStartTween( imageWidth, imageHeight );
 	
 	this.setExtrusionTween( this.targetExtrusion );
-	// this.exTween = new TWEEN.Tween( this.currentExtrusion )
-	// 	.to( this.targetExtrusion, 5000 )
-	// 	.easing( TWEEN.Easing.Quadratic.Out )
-	// 	.start();
 	
 	this.readyCallback();
   } );
   
+  setStartTween = ( imageWidth, imageHeight ) => {
+	if(this.startTween !== undefined) {
+	  this.startTween.stop();
+	}
+	this.startTween = new TWEEN.Tween( this.camera.position )
+		.to( { z: Math.max( imageWidth, imageHeight ) * 0.6 }, 4000 )
+		.easing( TWEEN.Easing.Quadratic.Out )
+		.start();
+  };
+  
   setExtrusionTween = ( newExtrusion ) => {
-	if(this.exTween !== null) {
+	if(this.exTween !== undefined) {
 	  this.exTween.stop();
 	}
 	this.targetExtrusion = { ...this.targetExtrusion, ...newExtrusion };
@@ -237,19 +256,29 @@ class ThreeRender {
 		.start();
   };
   
+  setImageAnimating = ( val ) => {
+	this.animateImage = val;
+  };
+  
+  getImageAnimating = () => {
+	return this.animateImage;
+  };
+  
   render = ( time ) => {
 	let now          = new Date().getTime();
 	this.currentTime = (now - this.startTime) / 1000;
 	TWEEN.update( time );
 	
 	if(this.mesh) {
-	  let xRotation = Math.PI + Math.cos( this.currentTime * 0.25 + 14 ) * (half_PI * 0.25);
-	  let yRotation = Math.PI + Math.sin( this.currentTime * 0.15 - 1 ) * (half_PI * 0.25);
-	  
-	  this.mesh.rotation.x                = xRotation;
-	  this.mesh.rotation.y                = yRotation;
-	  this.mouseDetectionPlane.rotation.x = xRotation;
-	  this.mouseDetectionPlane.rotation.y = yRotation;
+	  if(this.animateImage) {
+		let xRotation = Math.PI + Math.cos( this.currentTime * 0.25 + 14 ) * (half_PI * 0.25);
+		let yRotation = Math.PI + Math.sin( this.currentTime * 0.15 - 1 ) * (half_PI * 0.25);
+		
+		this.mesh.rotation.x                = xRotation;
+		this.mesh.rotation.y                = yRotation;
+		this.mouseDetectionPlane.rotation.x = xRotation;
+		this.mouseDetectionPlane.rotation.y = yRotation;
+	  }
 	  
 	  this.mesh.material.uniforms.hsv.value.set( this.currentExtrusion.h, this.currentExtrusion.s, this.currentExtrusion.v );
 	}
@@ -257,6 +286,7 @@ class ThreeRender {
 	requestAnimationFrame( this.render );
 	this.renderer.render( this.scene, this.camera );
   };
+  
 }
 
 export default ThreeRender;

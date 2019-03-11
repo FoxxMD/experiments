@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core';
 
 const styles = theme => ({
   track: {
-    backgroundColor: '#f33b7c'
+	backgroundColor: '#f33b7c'
   },
   thumb: {
 	backgroundColor: '#f33b7c'
@@ -34,7 +34,7 @@ class StatefulSlider extends Component {
   render(){
 	const { title, onChange, classes, initialValue, ...otherProps } = this.props;
 	return (<div style={{ margin: '10px 0 0 0', paddingBottom: '15px', minWidth: '300px' }}>
-	  {title !== undefined ? <h3>{title}: {this.state.value}</h3> : null}
+	  {title !== undefined ? <h5>{title}: {this.state.value.toLocaleString( undefined, { maximumFractionDigits: 2 } )}</h5> : null}
 	  <Slider classes={classes} {...otherProps} value={this.state.value} onChange={this.onChange} onDragEnd={this.onValueSet}/>
 	</div>);
   }
@@ -42,6 +42,6 @@ class StatefulSlider extends Component {
 
 const composed = compose(
 	withStyles( styles ),
-)
+);
 
-export default composed(StatefulSlider);
+export default composed( StatefulSlider );
