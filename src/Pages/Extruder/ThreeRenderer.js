@@ -204,7 +204,7 @@ class ThreeRender {
 	  fragmentShader: shaders.fragment
 	} );
 	
-	this.camera.position.z = Math.max( imageWidth, imageHeight ) * 0.3;
+	this.camera.position.z = Math.max( imageWidth, imageHeight ) * 1.2;
 	
 	for(let x = 0; x + pointDist < imageWidth; x += pointDist) {
 	  for(let y = 0; y + pointDist < imageHeight; y += pointDist) {

@@ -72,9 +72,9 @@ class ThreeContainer extends Component {
 	super( props );
 	const searchParams = qs.parse( window.location.search, { ignoreQueryPrefix: true } );
 	const {
-			url = 'https://i.imgur.com/3aDc8Iy.jpg',
-			h   = 0.05,
-			s   = 0,
+			url = 'https://i.imgur.com/On5dGzV.jpg',
+			h   = 0.2,
+			s   = 0.05,
 			v   = 0
 		  }            = searchParams || {};
 	
