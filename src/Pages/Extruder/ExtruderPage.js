@@ -213,7 +213,7 @@ class ThreeContainer extends Component {
 	this.setState( {
 	  loading: false,
 	  messageOpen: true,
-	  message: 'Image failed to load'
+	  message: 'Image failed to load! Either the URL was not found or the domain does not allow CORS requests :('
 	} );
   };
   
