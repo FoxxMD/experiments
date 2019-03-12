@@ -15,6 +15,7 @@ import {
   ListItem
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import InfoIcon from '@material-ui/icons/Info';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Favorite from '@material-ui/icons/Favorite';
 import WorldIcon from '@material-ui/icons/Language';
@@ -241,15 +242,15 @@ class ButtonAppBar extends Component {
 				<div className={classes.popoverTypography}>
 				  <Typography className={classes.blockTypography}>Hey thanks for checking this out! You're great.</Typography>
 				  <Typography className={classes.blockTypography}>Site source code is available on <a
-					  href="https://github.com/FoxxMD/redditdatalive">Github</a>, created
+					  href="https://github.com/FoxxMD/experiments">Github</a>, created
 					by <a href="https://matthewfoxx.com">Matt Foxx</a>.</Typography>
-				  <Typography className={classes.blockTypography}>Experiment attribution is on each page, if not created by me.</Typography>
+				  <Typography className={classes.blockTypography}>Click on {<InfoIcon/>} on each page for more information and code attribution.</Typography>
 				  <Typography className={classes.blockTypography}>Check out my Reddit live stream visualizations at <a
 					  href="http://redditdata.live">redditdata.live</a></Typography>
 				  <Typography className={classes.blockTypography}>If you have an idea for the site, feedback, or just want to say hi you
 					can:</Typography>
 				  <ul className={classes.block}>
-					<li>Create an issue on <a href="https://github.com/FoxxMD/redditdatalive/issues">Github</a></li>
+					<li>Create an issue on <a href="https://github.com/FoxxMD/experiments/issues">Github</a></li>
 					<li>PM me on <a href="https://www.reddit.com/user/foxxmd">Reddit</a></li>
 					<li><span style={{ display: 'inline' }}>shoot me an email at</span>
 					  <pre style={{ display: 'inline', marginLeft: '5px', fontSize: '1rem' }}>contact at matthewfoxx.com</pre>
