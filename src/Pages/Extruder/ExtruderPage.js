@@ -12,15 +12,30 @@ import {
   withStyles,
   ExpansionPanel,
   ExpansionPanelSummary,
-  ExpansionPanelDetails
+  ExpansionPanelDetails,
+  IconButton,
+  Popover,
+  Typography
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import InfoIcon from '@material-ui/icons/Info';
 import pageHOC from '../PageHOC';
 import { connect } from 'react-redux';
 import { defaultPrefs } from '../../Global/Preferences/preferencesReducer';
 import { selectAppBarHeight } from '../../Global/Preferences/preferencesSelector';
 import StatefulSlider from './StatefulSlider';
 import Toast from './Toast';
+
+const popOverProps = {
+  anchorOrigin: {
+	vertical: 'bottom',
+	horizontal: 'center'
+  },
+  transformOrigin: {
+	vertical: 'top',
+	horizontal: 'right'
+  }
+};
 
 const EX_H = 'h';
 const EX_S = 's';
@@ -33,24 +48,12 @@ const styles = theme => ({
 	position: 'absolute',
 	bottom: '2%',
 	right: '2%',
-	backgroundColor: 'rgba(88, 87, 87, 0.2);',
+	backgroundColor: 'rgba(88, 87, 87, 0.5);',
 	color: 'white',
 	zIndex: '9999',
 	maxWidth: '500px',
 	"&:hover": {
-	  backgroundColor: 'rgba(88, 87, 87, 0.7);'
-	}
-  },
-  attribution: {
-	position: 'absolute',
-	bottom: '2%',
-	left: '2%',
-	backgroundColor: 'rgba(88, 87, 87, 0.2);',
-	color: 'white',
-	zIndex: '9999',
-	padding: '15px',
-	"&:hover": {
-	  backgroundColor: 'rgba(88, 87, 87, 0.7);'
+	  backgroundColor: 'rgba(88, 87, 87, 0.9);'
 	}
   },
   textField: {
@@ -63,6 +66,23 @@ const styles = theme => ({
 	right: '50%',
 	width: '100px',
 	height: '100px'
+  },
+  info: {
+	position: 'absolute',
+	top: '0',
+	right: '24px',
+	zIndex: 9999,
+	color: 'rgba(255,255,255,0.9)'
+  },
+  popoverTypography: {
+	margin: theme.spacing.unit * 2,
+  },
+  blockTypography: {
+	marginBlockStart: '1em',
+	marginBlockEnd: '1em'
+  },
+  block: {
+	...theme.typography.body1
   }
 });
 
@@ -85,6 +105,7 @@ class ThreeContainer extends Component {
 	  url,
 	  animate: true,
 	  messageOpen: false,
+	  creditAnchorElement: null,
 	  extrusion: {
 		h: typeof h === 'string' ? parseFloat( h ) : h,
 		s: typeof s === 'string' ? parseFloat( s ) : s,
@@ -123,6 +144,18 @@ class ThreeContainer extends Component {
   handleToastClose = () => {
 	this.setState( {
 	  messageOpen: false
+	} );
+  };
+  
+  handleInfoClick = ( event ) => {
+	this.setState( {
+	  creditAnchorElement: event.currentTarget
+	} );
+  };
+  
+  handleInfoClose = () => {
+	this.setState( {
+	  creditAnchorElement: null
 	} );
   };
   
@@ -192,8 +225,8 @@ class ThreeContainer extends Component {
   };
   
   render(){
-	const { classes = {} }                          = this.props;
-	const { extrusion: { h, s, v } = {}, urlInput } = this.state;
+	const { classes = {} }                                               = this.props;
+	const { extrusion: { h, s, v } = {}, urlInput, creditAnchorElement } = this.state;
 	return (
 		<div style={{
 		  overflow: 'hidden',
@@ -202,6 +235,30 @@ class ThreeContainer extends Component {
 		  height: window.innerHeight - (this.props.appBarHeight !== null ? this.props.appBarHeight : 0),
 		  backgroundColor: 'black'
 		}}>
+		  <IconButton classes={{ root: classes.info }} onClick={this.handleInfoClick} color="inherit">
+			<InfoIcon/>
+		  </IconButton>
+		  <Popover open={Boolean( creditAnchorElement )}
+				   anchorEl={creditAnchorElement}
+				   onClose={this.handleInfoClose}
+				   style={{ padding: '10px 15px' }}
+				   {...popOverProps}>
+			<div className={classes.popoverTypography}>
+			  <Typography variant="subheading">Image Extruder</Typography>
+			  <div className={classes.block}>
+				Visualization code by <a style={{ marginRight: '5px' }}
+										 target='_blank'
+										 href="https://codepen.io/darrylhuffman/details/wOKbvy">
+				Darryl Huffman</a>❤️
+			  </div>
+			  <ul className={classes.block}>
+				<li>Adjust aspects of the image using the <b>Settings</b> panel in the bottom right</li>
+				<li>Use <b>Hue</b>, <b>Saturation</b>, and <b>Brightness</b> to adjust how far each particle is extruded</li>
+				<li>Click and hold with mouse to rotate and mousewheel to zoom</li>
+				<li>Use your own image by putting an image URL in the URL box and clicking "Use"</li>
+			  </ul>
+			</div>
+		  </Popover>
 		  <Toast onClose={this.handleToastClose} open={this.state.messageOpen} message={this.state.message}/>
 		  {this.state.loading ? (
 			  <div style={{ height: '100%', position: 'relative' }}>
@@ -212,12 +269,6 @@ class ThreeContainer extends Component {
 			<ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>Settings</ExpansionPanelSummary>
 			<ExpansionPanelDetails style={{ padding: '10px 15px 10px 15px' }}>
 			  <Paper style={{ backgroundColor: 'inherit' }} elevation={0}>
-				<div style={{ marginBottom: '10px' }}>
-				  Visualization code by <a style={{ marginRight: '5px' }}
-										   target='_blank'
-										   href="https://codepen.io/darrylhuffman/details/wOKbvy">
-				  Darryl Huffman</a>❤️
-				</div>
 				<TextField
 					classes={{ root: classes.textField }}
 					value={urlInput}

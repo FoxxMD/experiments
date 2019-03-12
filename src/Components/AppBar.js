@@ -51,6 +51,13 @@ const styles = theme => ({
   popoverTypography: {
 	margin: theme.spacing.unit * 2,
   },
+  blockTypography: {
+	marginBlockStart: '1em',
+	marginBlockEnd: '1em'
+  },
+  block: {
+	...theme.typography.body1
+  }
 });
 
 // const statusType = {
@@ -161,12 +168,12 @@ class ButtonAppBar extends Component {
   };
   
   // toggleSse = () => {
-	// if(this.props.sse.status === sseConstants.SSE_STATUS_CLOSED) {
-	//   this.props.startFeed();
-	// }
-	// else if(this.props.sse.status === sseConstants.SSE_STATUS_OPEN) {
-	//   this.props.stopFeed();
-	// }
+  // if(this.props.sse.status === sseConstants.SSE_STATUS_CLOSED) {
+  //   this.props.startFeed();
+  // }
+  // else if(this.props.sse.status === sseConstants.SSE_STATUS_OPEN) {
+  //   this.props.stopFeed();
+  // }
   // };
   
   savePrefs = ( prefs ) => {
@@ -231,23 +238,24 @@ class ButtonAppBar extends Component {
 					   anchorEl={creditAnchorElement}
 					   onClose={this.handlePopoverClose}
 					   {...popOverProps}>
-				<Typography className={classes.popoverTypography}>
-				  <Typography>
-					<p>Hey thanks for checking this out! You're great.</p>
-					<p>Site source code is available on <a href="https://github.com/FoxxMD/redditdatalive">Github</a>, created
-					  by <a href="https://matthewfoxx.com">Matt Foxx</a>.</p>
-					<p>Experiment attribution is on each page, if not created by me.</p>
-					<p>Check out my Reddit live stream visualizations at <a href="http://redditdata.live">redditdata.live</a></p>
-					<p>If you have an idea for the site, feedback, or just want to say hi you can:</p>
-					<ul>
-					  <li>Create an issue on <a href="https://github.com/FoxxMD/redditdatalive/issues">Github</a></li>
-					  <li>PM me on <a href="https://www.reddit.com/user/foxxmd">Reddit</a></li>
-					  <li><span style={{ display: 'inline' }}>shoot me an email at</span>
-						<pre style={{ display: 'inline', marginLeft: '5px', fontSize: '1rem' }}>contact at matthewfoxx.com</pre>
-					  </li>
-					</ul>
-				  </Typography>
-				</Typography>
+				<div className={classes.popoverTypography}>
+				  <Typography className={classes.blockTypography}>Hey thanks for checking this out! You're great.</Typography>
+				  <Typography className={classes.blockTypography}>Site source code is available on <a
+					  href="https://github.com/FoxxMD/redditdatalive">Github</a>, created
+					by <a href="https://matthewfoxx.com">Matt Foxx</a>.</Typography>
+				  <Typography className={classes.blockTypography}>Experiment attribution is on each page, if not created by me.</Typography>
+				  <Typography className={classes.blockTypography}>Check out my Reddit live stream visualizations at <a
+					  href="http://redditdata.live">redditdata.live</a></Typography>
+				  <Typography className={classes.blockTypography}>If you have an idea for the site, feedback, or just want to say hi you
+					can:</Typography>
+				  <ul className={classes.block}>
+					<li>Create an issue on <a href="https://github.com/FoxxMD/redditdatalive/issues">Github</a></li>
+					<li>PM me on <a href="https://www.reddit.com/user/foxxmd">Reddit</a></li>
+					<li><span style={{ display: 'inline' }}>shoot me an email at</span>
+					  <pre style={{ display: 'inline', marginLeft: '5px', fontSize: '1rem' }}>contact at matthewfoxx.com</pre>
+					</li>
+				  </ul>
+				</div>
 			  </Popover>
 			</Toolbar>
 		  </AppBar>
