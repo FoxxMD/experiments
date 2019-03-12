@@ -63,113 +63,114 @@ class PreferenceDrawer extends Component {
   };
   
   render(){
-	const { preferences, onSavePrefs, ...otherProps } = this.props;
-	return (<SwipeableDrawer anchor="right" disableBackdropTransition {...otherProps}>
-	  <div style={{ width: '300px' }}>
-		<List subheader={<ListSubheader>Preferences</ListSubheader>}>
-		  <ListItem>
-			<ListItemText primary="Event Types"/>
-			<Select
-				multiple
-				value={get( this.state, [ 'activeEvents' ], [] )}
-				onChange={( e ) => this.updatePrefValue( 'activeEvents', e.target.value )}
-				input={<Input id="select-multiple"/>}
-				MenuProps={MenuProps}
-			>
-			  {this.state.availableEvents.map( events => (
-				  <MenuItem
-					  key={events}
-					  value={events}
-				  >
-					{events}
-				  </MenuItem>
-			  ) )}
-			</Select>
-		  </ListItem>
-		  <ListItem>
-			<ListItemText primary="Subreddits (Not Impl)"/>
-			<Select
-				multiple
-				disabled
-				value={get( this.state, [ 'subreddits' ], [] )}
-				onChange={( e ) => this.updatePrefValue( 'subreddits', e.target.value )}
-				input={<Input id="select-multiple"/>}
-				MenuProps={MenuProps}
-			>
-			  {this.state.subreddits.map( events => (
-				  <MenuItem
-					  key={events}
-					  value={events}
-				  >
-					{events}
-				  </MenuItem>
-			  ) )}
-			</Select>
-		  </ListItem>
-		  <ListItem>
-			<ListItemText primary="Show NSFW?"/>
-			<ListItemSecondaryAction>
-			  <Select
-				  value={valueToString( get( this.state, [ 'nsfw' ] ) )}
-				  onChange={( e ) =>{
-					this.updatePrefValue( 'nsfw', stringToValue( e.target.value ) );
-				  }}
-				  input={<Input/>}
-				  MenuProps={MenuProps}
-			  >
-				<MenuItem key="off" value="null">Whatever</MenuItem>
-				<MenuItem key="yes" value="true">Yes</MenuItem>
-				<MenuItem key="no" value="false">No</MenuItem>
-			  </Select>
-			</ListItemSecondaryAction>
-		  </ListItem>
-		  <ListItem>
-			<ListItemText primary="Only Self Posts?"/>
-			<ListItemSecondaryAction>
-			  <Select
-				  value={valueToString( get( this.state, [ 'self' ] ) )}
-				  onChange={( e ) =>{
-					this.updatePrefValue( 'self', stringToValue( e.target.value ) );
-				  }}
-				  input={<Input/>}
-				  MenuProps={MenuProps}
-			  >
-				<MenuItem key="off" value="null">Whatever</MenuItem>
-				<MenuItem key="yes" value="true">Yes</MenuItem>
-				<MenuItem key="no" value="false">No</MenuItem>
-			  </Select>
-			</ListItemSecondaryAction>
-		  </ListItem>
-		  <ListItem>
-			<ListItemText primary="Submission Backfill"/>
-			<ListItemSecondaryAction>
-			  <Input style={{ width: '70px' }}
-					 type="number"
-					 value={get( this.state, [ 'subBackfill' ], 0 )}
-					 disabled={this.state.subBackfill === undefined}
-					 onChange={( e ) => this.updatePrefValue( 'subBackfill', e.target.value )}/>
-			</ListItemSecondaryAction>
-		  </ListItem>
-		  <ListItem>
-			<ListItemText primary="Auto-Start"/>
-			<ListItemSecondaryAction>
-			  <Switch
-				  disabled={preferences.autoStart === undefined}
-				  checked={this.state.autoStart || preferences.autoStart || false}
-				  onChange={( e ) => this.updatePrefValue( 'autoStart', e.target.checked )}
-				  value="self"
-			  />
-			</ListItemSecondaryAction>
-		  </ListItem>
-		  <ListItem>
-			<Button onClick={this.submitPrefs} fullWidth variant="contained" color="primary"
-					disabled={this.arePrefsModified( this.state )}>Save</Button>
-			<Button onClick={this.revertPrefs} fullWidth variant="outlined" color="secondary"
-					disabled={this.arePrefsModified( this.state )}>Revert</Button>
-		  </ListItem>
-		</List>
-	  </div>
-	</SwipeableDrawer>);
+    return null;
+	// const { preferences, onSavePrefs, ...otherProps } = this.props;
+	// return (<SwipeableDrawer anchor="right" disableBackdropTransition {...otherProps}>
+	//   <div style={{ width: '300px' }}>
+	// 	<List subheader={<ListSubheader>Preferences</ListSubheader>}>
+	// 	  <ListItem>
+	// 		<ListItemText primary="Event Types"/>
+	// 		<Select
+	// 			multiple
+	// 			value={get( this.state, [ 'activeEvents' ], [] )}
+	// 			onChange={( e ) => this.updatePrefValue( 'activeEvents', e.target.value )}
+	// 			input={<Input id="select-multiple"/>}
+	// 			MenuProps={MenuProps}
+	// 		>
+	// 		  {this.state.availableEvents.map( events => (
+	// 			  <MenuItem
+	// 				  key={events}
+	// 				  value={events}
+	// 			  >
+	// 				{events}
+	// 			  </MenuItem>
+	// 		  ) )}
+	// 		</Select>
+	// 	  </ListItem>
+	// 	  <ListItem>
+	// 		<ListItemText primary="Subreddits (Not Impl)"/>
+	// 		<Select
+	// 			multiple
+	// 			disabled
+	// 			value={get( this.state, [ 'subreddits' ], [] )}
+	// 			onChange={( e ) => this.updatePrefValue( 'subreddits', e.target.value )}
+	// 			input={<Input id="select-multiple"/>}
+	// 			MenuProps={MenuProps}
+	// 		>
+	// 		  {this.state.subreddits.map( events => (
+	// 			  <MenuItem
+	// 				  key={events}
+	// 				  value={events}
+	// 			  >
+	// 				{events}
+	// 			  </MenuItem>
+	// 		  ) )}
+	// 		</Select>
+	// 	  </ListItem>
+	// 	  <ListItem>
+	// 		<ListItemText primary="Show NSFW?"/>
+	// 		<ListItemSecondaryAction>
+	// 		  <Select
+	// 			  value={valueToString( get( this.state, [ 'nsfw' ] ) )}
+	// 			  onChange={( e ) =>{
+	// 				this.updatePrefValue( 'nsfw', stringToValue( e.target.value ) );
+	// 			  }}
+	// 			  input={<Input/>}
+	// 			  MenuProps={MenuProps}
+	// 		  >
+	// 			<MenuItem key="off" value="null">Whatever</MenuItem>
+	// 			<MenuItem key="yes" value="true">Yes</MenuItem>
+	// 			<MenuItem key="no" value="false">No</MenuItem>
+	// 		  </Select>
+	// 		</ListItemSecondaryAction>
+	// 	  </ListItem>
+	// 	  <ListItem>
+	// 		<ListItemText primary="Only Self Posts?"/>
+	// 		<ListItemSecondaryAction>
+	// 		  <Select
+	// 			  value={valueToString( get( this.state, [ 'self' ] ) )}
+	// 			  onChange={( e ) =>{
+	// 				this.updatePrefValue( 'self', stringToValue( e.target.value ) );
+	// 			  }}
+	// 			  input={<Input/>}
+	// 			  MenuProps={MenuProps}
+	// 		  >
+	// 			<MenuItem key="off" value="null">Whatever</MenuItem>
+	// 			<MenuItem key="yes" value="true">Yes</MenuItem>
+	// 			<MenuItem key="no" value="false">No</MenuItem>
+	// 		  </Select>
+	// 		</ListItemSecondaryAction>
+	// 	  </ListItem>
+	// 	  <ListItem>
+	// 		<ListItemText primary="Submission Backfill"/>
+	// 		<ListItemSecondaryAction>
+	// 		  <Input style={{ width: '70px' }}
+	// 				 type="number"
+	// 				 value={get( this.state, [ 'subBackfill' ], 0 )}
+	// 				 disabled={this.state.subBackfill === undefined}
+	// 				 onChange={( e ) => this.updatePrefValue( 'subBackfill', e.target.value )}/>
+	// 		</ListItemSecondaryAction>
+	// 	  </ListItem>
+	// 	  <ListItem>
+	// 		<ListItemText primary="Auto-Start"/>
+	// 		<ListItemSecondaryAction>
+	// 		  <Switch
+	// 			  disabled={preferences.autoStart === undefined}
+	// 			  checked={this.state.autoStart || preferences.autoStart || false}
+	// 			  onChange={( e ) => this.updatePrefValue( 'autoStart', e.target.checked )}
+	// 			  value="self"
+	// 		  />
+	// 		</ListItemSecondaryAction>
+	// 	  </ListItem>
+	// 	  <ListItem>
+	// 		<Button onClick={this.submitPrefs} fullWidth variant="contained" color="primary"
+	// 				disabled={this.arePrefsModified( this.state )}>Save</Button>
+	// 		<Button onClick={this.revertPrefs} fullWidth variant="outlined" color="secondary"
+	// 				disabled={this.arePrefsModified( this.state )}>Revert</Button>
+	// 	  </ListItem>
+	// 	</List>
+	//   </div>
+	// </SwipeableDrawer>);
   }
 }
 

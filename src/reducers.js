@@ -1,16 +1,17 @@
 // import * as constants from './constants';
 import { combineReducers } from 'redux';
 import {
-  routerReducer,
-} from "react-router-redux";
+  connectRouter,
+} from "connected-react-router";
+import history from './Utils/history';
 
 import preferences from './Global/Preferences/preferencesReducer';
 // import sse from './Global/SSE/sseReducer';
 
-export default function createReducer( injectedReducers ){
+export default function createReducer( injectedReducers = {} ){
   return combineReducers( {
-	route: routerReducer,
 	preferences,
+	router: connectRouter( history ),
 	// sse,
 	...injectedReducers,
   } );

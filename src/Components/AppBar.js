@@ -21,8 +21,7 @@ import WorldIcon from '@material-ui/icons/Language';
 import withBreadcrumbs from 'react-router-breadcrumbs-hoc';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-import get from 'lodash/get';
+import { push } from 'connected-react-router';
 import { withSize } from 'react-sizeme';
 
 import routes from '../routes';
